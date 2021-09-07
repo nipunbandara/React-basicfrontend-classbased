@@ -34,6 +34,28 @@ class AllEmployees extends Component {
       })
   }
 
+  filterData(employees, searchkey){
+    const result = employees.filter((employees) =>
+    employees.name.toLowerCase().includes(searchkey)
+    );
+    this.setState({employees:result});
+    }
+
+
+
+
+    handleSearchArea = (e) => {
+    const searchkey = e.currentTarget.value;
+
+    axios.get("/employee/").then(res =>{
+        if(res.data.success){
+            this.filterData(res.data.existingEmployees, searchkey)
+        }
+        
+        });
+    }
+
+
   render() {
     return (
  
@@ -76,6 +98,7 @@ class AllEmployees extends Component {
 
               </tbody>
             </table>
+            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onChange = {this.handleSearchArea}></input>
 
             <button className = "btn btn-success"><a href = "/add" style = {{textDecoration:"none", color:"white"}}>Create</a></button>
             
